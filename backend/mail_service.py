@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import formataddr
 from pathlib import Path
+import sys
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -853,7 +854,7 @@ from the ALIA website contact form.
     acknowledgement_message = EmailMessage()
 
     acknowledgement_message["Subject"] = (
-        "Thank You for Contacting ALIA"
+        "Thank You for Contacting ALIA-AUTO.AI"
     )
 
     acknowledgement_message["From"] = formataddr(
@@ -865,7 +866,7 @@ from the ALIA website contact form.
 
     # IMPORTANT:
     # Use the original validated email for SMTP recipient.
-    acknowledgement_message["To"] = email
+    acknowledgement_message["To"] = (email)
 
     # If customer replies to acknowledgement,
     # send that reply to ALIA Support.
@@ -955,7 +956,7 @@ content="width=device-width, initial-scale=1.0"
 >
 
 <title>
-Thank You for Contacting ALIA
+Thank You for Contacting ALIA-AUTO.AI
 </title>
 
 </head>
@@ -1168,7 +1169,7 @@ style="
     font-weight:800;
 "
 >
-Thank You for Contacting ALIA
+Thank You for Contacting ALIA-AUTO.AI
 </h1>
 
 
@@ -1791,19 +1792,59 @@ by replying to this automated email.
 
         # ----------------------------------------------------
         # EMAIL 1:
-        # Send website enquiry to ALIA Support
+        # Internal ALIA notification
         # ----------------------------------------------------
 
-        smtp.send_message(
+        print(
+            f"[ALIA MAIL] Sending internal email to: {support_email}",
+            file=sys.stderr,
+            flush=True,
+        )
+
+        internal_result = smtp.send_message(
             internal_message
+        )
+
+        print(
+            f"[ALIA MAIL] Internal send result: {internal_result}",
+            file=sys.stderr,
+            flush=True,
         )
 
 
         # ----------------------------------------------------
         # EMAIL 2:
-        # Send acknowledgement to the customer
+        # Customer acknowledgement
         # ----------------------------------------------------
 
-        smtp.send_message(
-            acknowledgement_message
+        print(
+            f"[ALIA MAIL] Sending acknowledgement to: {email}",
+            file=sys.stderr,
+            flush=True,
         )
+
+        try:
+            acknowledgement_result = smtp.send_message(
+                acknowledgement_message
+            )
+
+            print(
+                (
+                    "[ALIA MAIL] Customer acknowledgement "
+                    f"send result: {acknowledgement_result}"
+                ),
+                file=sys.stderr,
+                flush=True,
+            )
+
+        except Exception as exc:
+            print(
+                (
+                    "[ALIA MAIL] CUSTOMER ACKNOWLEDGEMENT FAILED: "
+                    f"{type(exc).__name__}: {exc}"
+                ),
+                file=sys.stderr,
+                flush=True,
+            )
+
+            raise
