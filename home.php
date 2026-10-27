@@ -1,228 +1,1354 @@
-<?php
-$featureCards = [
-    ['icon'=>'chart','tag'=>'Core','title'=>'Offer Aggregation','text'=>'Structured database of cash-back, APR, lease, and OEM campaign data across all major brands — normalized for apples-to-apples comparison.','tone'=>'navy'],
-    ['icon'=>'compare','tag'=>'Strategy','title'=>'Competitive Benchmarking','text'=>'Side-by-side comparison of offer structures across brands, segments, and markets. Understand where your offer sits vs. every rival in the room.','tone'=>'orange'],
-    ['icon'=>'earth','tag'=>'Coverage','title'=>'Key Middle East Markets','text'=>'UAE, KSA, Qatar, and Kuwait — each market tracked independently with local currency, local incentive types, and country-specific OEM programs.','tone'=>'navy'],
-    ['icon'=>'trend','tag'=>'Analytics','title'=>'Trend & Pattern Analysis','text'=>'Trend and pattern analysis of the different markets data across months and model years — revealing seasonal patterns, launch cycles, and incentive escalation trends.','tone'=>'orange'],
-    ['icon'=>'brain','tag'=>'Intelligence','title'=>'AI-Driven Insights','text'=>'Automated pattern recognition surfaces anomalies, campaign outliers, and strategic inflection points — so analysts spend time deciding, not digging.','tone'=>'orange'],
-    ['icon'=>'layers','tag'=>'Filtering','title'=>'Segment Analysis','text'=>'Filter by vehicle segment — sedan, SUV, pickup, luxury, EV — to see how incentive strategies differ across categories within the same brand.','tone'=>'orange'],
-    ['icon'=>'score','tag'=>'Scoring','title'=>'Incentive Scoring','text'=>'Proprietary scoring that quantifies total consumer benefit across cash, financing, and lease offers — enabling true value-to-MSRP comparison.','tone'=>'navy'],
-];
+<main class="alia-home" id="top">
 
-$markets = [
-    ['flag'=>'🇦🇪','name'=>'United Arab Emirates','code'=>'AED · UAE','cities'=>['Dubai','Abu Dhabi','Sharjah'],'desc'=>'Largest Gulf auto market by volume. Tracks all seven emirates including free zone dealer activity.','types'=>['Cash Back','0% APR','Lease','Loyalty','Fleet']],
-    ['flag'=>'🇸🇦','name'=>'Kingdom of Saudi Arabia','code'=>'SAR · KSA','cities'=>['Riyadh','Jeddah','Dammam'],'desc'=>'Highest-volume market in the region. Tracks Vision 2030-linked EV incentive programs alongside conventional offers.','types'=>['Cash Back','APR Campaigns','OEM Programs','Fleet','Conquest']],
-    ['flag'=>'🇶🇦','name'=>'Qatar','code'=>'QAR · QAT','cities'=>['Doha','Al Wakrah'],'desc'=>'Smaller but high-value market. Premium and luxury segment incentives tracked in full alongside mainstream brands.','types'=>['Cash Back','Dealer Incentives','Loyalty','APR']],
-    ['flag'=>'🇰🇼','name'=>'Kuwait','code'=>'KWD · KWT','cities'=>['Kuwait City','Hawalli','Al Ahmadi'],'desc'=>'High per-capita vehicle ownership. Tracks extensive year-end clearance campaigns and import-dealer offers.','types'=>['Cash Back','Lease','OEM Promotions','End-of-Year Deals']],
-];
 
-$segments = [
-    ['icon'=>'🚗','name'=>'Sedan & Saloon'],['icon'=>'🚙','name'=>'SUV & Crossover'],['icon'=>'🛻','name'=>'Pickup Truck'],
-    ['icon'=>'🏎️','name'=>'Luxury & Premium'],['icon'=>'⚡','name'=>'Electric Vehicle'],['icon'=>'🚐','name'=>'Van & Commercial'],
-];
+    <!-- =====================================================
+         01. HERO
+    ====================================================== -->
 
-$ticker = [
-    ['Cash-Back Offers','Track manufacturer rebates by model & trim across all Gulf markets'],
-    ['0% APR Campaigns','Compare interest-free financing terms from 24 to 84 months'],
-    ['Lease Incentives','Monthly lease rates, residual values, and money factors by segment'],
-    ['OEM Promotions','Seasonal campaigns, loyalty bonuses, conquest cashback by brand'],
-    ['Fleet Pricing','Volume discount structures and fleet incentive tiers'],
-    ['End-of-Year Deals','Clearance incentives and model-year transition offers'],
-    ['Trade-In Bonuses','Enhanced trade-in allowances stacked with purchase incentives'],
-    ['Conquest Offers','Competitive switching incentives targeting rival brand owners'],
-];
+    <section class="alia-hero">
 
-function iconSvg(string $name): string {
-    $common = 'width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
-    return match ($name) {
-        'chart' => "<svg $common><path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/></svg>",
-        'compare' => "<svg $common><path d=\"M8 3 4 7l4 4\"/><path d=\"M4 7h16\"/><path d=\"m16 21 4-4-4-4\"/><path d=\"M20 17H4\"/></svg>",
-        'earth' => "<svg $common><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12h20\"/><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z\"/></svg>",
-        'trend' => "<svg $common><path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"m19 9-5 5-4-4-3 3\"/></svg>",
-        'brain' => "<svg $common><path d=\"M12 5a3 3 0 1 0-6 0 4 4 0 0 0-2.5 6 4 4 0 0 0 .5 6.5A4 4 0 1 0 12 18Z\"/><path d=\"M12 5a3 3 0 1 1 6 0 4 4 0 0 1 2.5 6 4 4 0 0 1-.5 6.5A4 4 0 1 1 12 18Z\"/></svg>",
-        'layers' => "<svg $common><path d=\"m12.8 2.2 8.6 3.9a1 1 0 0 1 0 1.8l-8.6 3.9a2 2 0 0 1-1.6 0L2.6 7.9a1 1 0 0 1 0-1.8l8.6-3.9a2 2 0 0 1 1.6 0Z\"/><path d=\"m2 12 9.2 4.2a2 2 0 0 0 1.6 0L22 12\"/><path d=\"m2 17 9.2 4.2a2 2 0 0 0 1.6 0L22 17\"/></svg>",
-        'score' => "<svg $common><polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\"/><polyline points=\"16 7 22 7 22 13\"/></svg>",
-        default => ''
-    };
-}
-?>
-<main id="top">
-    <section class="hero-section">
-        <div class="hero-image" aria-hidden="true"></div>
-        <div class="hero-gradient" aria-hidden="true"></div>
-        <div class="shell hero-shell">
-            <div class="hero-copy">
-                <h1><span>Know Every Offer.</span><br><span>Outpace Every <em>Rival.</em></span></h1>
-                <p>ALIA aggregates and structures automotive offers — cash-back deals, APR promotions, lease incentives, and OEM campaigns — across the Gulf region into one strategic intelligence platform for brands, dealers, and analysts.</p>
-                <div class="hero-actions">
+        <div class="shell alia-hero__grid">
+
+
+            <!-- LEFT CONTENT -->
+
+<!-- LEFT CONTENT -->
+
+<div class="alia-hero__content">
+
+    <span class="alia-kicker">
+        GCC Automotive Market Intelligence
+    </span>
+
+<h1>
+                    Real-Time Automotive
+                    Market Intelligence
+                    <span>Across the GCC</span>
+                </h1>
+
+                <p class="alia-hero__lead">
+                    ALIA helps automotive OEMs and dealer teams monitor
+                    competitor offers, pricing, incentives and complete
+                    offer value across the UAE, Saudi Arabia, Kuwait and
+                    Qatar from one live-intelligence platform.
+                </p>
+
+                <p class="alia-hero__support">
+                    See how your brand and offers compare before making
+                    the next pricing, incentive or market decision.
+                </p>
+
+
+                <div class="alia-hero__actions">
+
                     <a
-                        class="react-primary-btn"
-                        href="<?= htmlspecialchars($site['contact'], ENT_QUOTES, 'UTF-8') ?>"
+                        href="/contact"
                         target="_blank"
                         rel="noopener noreferrer"
+                        class="alia-btn alia-btn--primary"
                     >
-                        <span>Request a Demo</span>
-
-                        <svg
-                            class="react-primary-btn__icon"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
-                        >
-                            <path d="M5 12h14"></path>
-                            <path d="m12 5 7 7-7 7"></path>
-                        </svg>
+                        Request a Demo
                     </a>
-                </div>                
-                <h2>Built to cover the Middle East market</h2>
-                <div class="hero-stats">
-                    <article class="stat-card stat-navy">
-                        <div class="stat-icon"><?= iconSvg('chart') ?></div><strong>12+</strong><b>Offer Types Tracked</b><small>Cash back, APR, lease &amp; more</small>
-                    </article>
-                    <article class="stat-card stat-indigo">
-                        <div class="stat-icon"><?= iconSvg('earth') ?></div><strong>4</strong><b>Markets Covered</b><small>UAE · KSA · Qatar · Kuwait</small>
-                    </article>
-                    <article class="stat-card stat-orange">
-                        <div class="stat-icon"><?= iconSvg('layers') ?></div><strong>16+</strong><b>Brands in Database</b><small>All major OEMs &amp; segments</small>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="ticker-wrap" aria-label="Offer categories">
-        <div class="ticker-fade ticker-fade-left"></div><div class="ticker-fade ticker-fade-right"></div>
-        <div class="ticker-track">
-            <?php for ($pass=0; $pass<2; $pass++): foreach ($ticker as [$label,$detail]): ?>
-            <div class="ticker-item"><strong><?= htmlspecialchars($label) ?></strong><span><?= htmlspecialchars($detail) ?></span></div>
-            <?php endforeach; endfor; ?>
-        </div>
-    </section>
-
-    <section id="features" class="section features-section">
-        <div class="shell">
-            <div class="section-heading feature-heading">
-                <h2>Everything You Need to <span>Stay Ahead with Sales Strategy</span></h2>
-                <p>Twelve purpose-built capabilities that cover every step of the automotive offer intelligence workflow — from data collection to strategic decision.</p>
-            </div>
-            <div class="features-grid">
-                <?php foreach ($featureCards as $feature): ?>
-                <article class="feature-card <?= $feature['tone'] ?>">
-                    <span class="feature-tag"><?= htmlspecialchars($feature['tag']) ?></span>
-                    <div class="feature-icon"><?= iconSvg($feature['icon']) ?></div>
-                    <h3><?= htmlspecialchars($feature['title']) ?></h3>
-                    <p><?= htmlspecialchars($feature['text']) ?></p>
-                </article>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-
-    <section id="intelligence" class="section intelligence-section">
-        <div class="intelligence-glow" aria-hidden="true"></div>
-        <div class="shell intelligence-shell">
-            <div class="section-heading intelligence-heading">
-                <h2>Your Market <span>Command Center</span></h2>
-                <p>The charts and offer records below are <strong>illustrative examples</strong> of how ALIA structures and presents automotive intelligence — not live data feeds.</p>
-            </div>
-            <div class="intel-note"><span>ⓘ</span> Figures represent the type of analysis ALIA generates — not current market values.</div>
-            <div class="command-card">
-                <div class="command-grid">
-                    <div class="trend-panel panel">
-                        <div class="panel-head">
-                            <div><h3>Average Discount Depth by Brand</h3><p>Sample — 7-month window · USD equivalent</p></div>
-                            <span class="illustrative">ILLUSTRATIVE</span>
-                        </div>
-                        <div class="trend-chart">
-                            <svg viewBox="0 0 728 256" role="img" aria-label="Illustrative average discount trend chart">
-                                <defs>
-                                    <linearGradient id="toyotaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stop-color="#1C3664" stop-opacity=".25"/><stop offset="95%" stop-color="#1C3664" stop-opacity="0"/></linearGradient>
-                                    <linearGradient id="fordFill" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stop-color="#F26428" stop-opacity=".25"/><stop offset="95%" stop-color="#F26428" stop-opacity="0"/></linearGradient>
-                                </defs>
-                                <g class="chart-grid">
-                                    <?php foreach ([5,59,113,167,221] as $y): ?><line x1="65" y1="<?= $y ?>" x2="723" y2="<?= $y ?>"/><?php endforeach; ?>
-                                    <?php foreach ([65,174.7,284.3,394,503.7,613.3,723] as $x): ?><line x1="<?= $x ?>" y1="5" x2="<?= $x ?>" y2="221"/><?php endforeach; ?>
-                                </g>
-                                <g class="y-axis-labels"><text x="57" y="224">$0K</text><text x="57" y="170">$2K</text><text x="57" y="116">$4K</text><text x="57" y="62">$6K</text><text x="57" y="10">$8K</text></g>
-                                <path class="area toyota-area" d="M65,118.4C101.6,114.4 138.1,110.3 174.7,110.3C211.2,110.3 247.8,123.8 284.3,123.8C320.9,123.8 357.4,107.2 394,102.2C430.6,97.3 467.1,96.8 503.7,94.1C540.2,91.4 576.8,88.7 613.3,86C649.9,83.3 686.4,80.6 723,77.9L723,221L65,221Z"/>
-                                <path class="line toyota-line" d="M65,118.4C101.6,114.4 138.1,110.3 174.7,110.3C211.2,110.3 247.8,123.8 284.3,123.8C320.9,123.8 357.4,107.2 394,102.2C430.6,97.3 467.1,96.8 503.7,94.1C540.2,91.4 576.8,88.7 613.3,86C649.9,83.3 686.4,80.6 723,77.9"/>
-                                <path class="area ford-area" d="M65,56.3C101.6,52.3 138.1,48.2 174.7,48.2C211.2,48.2 247.8,64.4 284.3,64.4C320.9,64.4 357.4,43.7 394,37.4C430.6,31.1 467.1,26.6 503.7,26.6C540.2,26.6 576.8,32 613.3,32C649.9,32 686.4,25.3 723,18.5L723,221L65,221Z"/>
-                                <path class="line ford-line" d="M65,56.3C101.6,52.3 138.1,48.2 174.7,48.2C211.2,48.2 247.8,64.4 284.3,64.4C320.9,64.4 357.4,43.7 394,37.4C430.6,31.1 467.1,26.6 503.7,26.6C540.2,26.6 576.8,32 613.3,32C649.9,32 686.4,25.3 723,18.5"/>
-                                <path class="line dashed gmc-line" d="M65,80.6C101.6,75.2 138.1,69.8 174.7,69.8C211.2,69.8 247.8,88.7 284.3,88.7C320.9,88.7 357.4,70.3 394,64.4C430.6,58.6 467.1,57.2 503.7,53.6C540.2,50 576.8,46.9 613.3,42.8C649.9,38.8 686.4,34 723,29.3"/>
-                                <path class="line dashed hyundai-line" d="M65,142.7C101.6,140.9 138.1,139.1 174.7,137.3C211.2,135.5 247.8,134.2 284.3,131.9C320.9,129.7 357.4,127 394,123.8C430.6,120.7 467.1,116.2 503.7,113C540.2,109.9 576.8,104.9 613.3,104.9C649.9,104.9 686.4,107.6 723,110.3"/>
-                                <g class="x-axis-labels"><text x="65" y="245">Jan</text><text x="175" y="245">Feb</text><text x="284" y="245">Mar</text><text x="394" y="245">Apr</text><text x="504" y="245">May</text><text x="613" y="245">Jun</text><text x="718" y="245">Jul</text></g>
-                            </svg>
-                        </div>
-                        <div class="chart-legend"><span class="toyota">Toyota</span><span class="ford">Ford</span><span class="gmc">GMC</span><span class="hyundai">Hyundai</span></div>
-                    </div>
-                    <div class="command-side">
-                        <div class="mix-panel panel">
-                            <h3>Offer Type Mix</h3><p>Gulf market — sample breakdown</p>
-                            <div class="bar-list">
-                                <?php foreach ([['Cash Back',76],['0% APR',54],['Lease Deal',36],['Loyalty Bonus',20],['Conquest',14]] as [$label,$value]): ?>
-                                <div class="bar-row"><span><?= htmlspecialchars($label) ?></span><div><i style="width:<?= $value ?>%"></i></div></div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                        <div class="records-panel panel">
-                            <h3>Sample Offer Records</h3><p>Format ALIA uses for structured output</p>
-                            <?php $offers=[['GM','GMC Sierra 1500','Model-year transition incentive','$7,500 off','Cash Back'],['To','Toyota Land Cruiser','Anniversary campaign — KSA','0% / 60mo','0% APR'],['Hy','Hyundai Tucson','New residual value program — UAE','AED 1,800/mo','Lease'],['Fo','Ford F-150 Raptor','Incentive reduced vs prior month','$9,000 off','Cash Back']]; foreach($offers as $o): ?>
-                            <div class="record-row"><span class="record-badge"><?= $o[0] ?></span><div><b><?= $o[1] ?></b><small><?= $o[2] ?></small></div><strong><?= $o[3] ?><small><?= $o[4] ?></small></strong></div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="coverage" class="section coverage-section">
-        <div class="shell">
-            <div class="section-heading coverage-heading">
-                <h2>Key Middle East Markets. <span>16+ Brands.</span><br>Every Offer Type.</h2>
-                <p>ALIA tracks automotive incentives across every major Gulf market — each with its own currency, regulatory context, and offer landscape.</p>
-            </div>
-            <div class="markets-grid">
-                <?php foreach ($markets as $market): ?>
-                <article class="market-card">
-                    <div class="market-head"><span class="flag"><?= $market['flag'] ?></span><div><h3><?= htmlspecialchars($market['name']) ?></h3><b><?= htmlspecialchars($market['code']) ?></b></div></div>
-                    <div class="city-pills"><?php foreach($market['cities'] as $city): ?><span>⌖ <?= htmlspecialchars($city) ?></span><?php endforeach; ?></div>
-                    <p><?= htmlspecialchars($market['desc']) ?></p>
-                    <h4>Offer types tracked:</h4>
-                    <div class="offer-pills"><?php foreach($market['types'] as $type): ?><span><?= htmlspecialchars($type) ?></span><?php endforeach; ?></div>
-                </article>
-                <?php endforeach; ?>
-            </div>
-            <div class="segments-card">
-                <div class="segments-title"><span>🚘</span><h3>Vehicle Segments Covered</h3></div>
-                <div class="segments-grid"><?php foreach($segments as $segment): ?><div><span><?= $segment['icon'] ?></span><b><?= htmlspecialchars($segment['name']) ?></b></div><?php endforeach; ?></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-section" id="pricing">
-        <div class="shell cta-shell">
-            <div class="cta-card">
-                <div class="cta-icon">⚡</div>
-                <h2>Ready to Gain the <span>Edge?</span></h2>
-                <p>Join the leading automotive brands and dealers using ALIA to make smarter, faster decisions.</p>
-                <div class="cta-actions">
                     <a
-                        class="react-cta-btn"
-                        href="<?= htmlspecialchars($site['contact'], ENT_QUOTES, 'UTF-8') ?>"
+                        href="/how-alia-works"
+                        class="alia-btn alia-btn--secondary"
                     >
-                        Schedule Demo
+                        See How ALIA Works
                     </a>
+
                 </div>
+
+
+                <div class="alia-hero__proof">
+
+                    <div>
+                        <strong>100+</strong>
+                        <span>Dealers Tracked</span>
+                    </div>
+
+                    <div>
+                        <strong>4</strong>
+                        <span>GCC Markets</span>
+                    </div>
+
+                    <div>
+                        <strong>Live</strong>
+                        <span>Offer Intelligence</span>
+                    </div>
+
+                </div>
+
             </div>
+
+
+            <!-- RIGHT DASHBOARD IMAGE -->
+
+            <div class="alia-hero__visual">
+
+                <div class="alia-dashboard-image-wrap">
+
+                    <img
+                        src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/hero-dashboard.png"
+                        alt="ALIA automotive market intelligence dashboard showing GCC pricing, incentives, dealer offers and Total Offer Value"
+                        class="alia-dashboard-image"
+                    >
+
+                </div>
+
+            </div>
+
+
         </div>
+
     </section>
-</main>
+
+
+
+    <!-- =====================================================
+         02. MARKET CHALLENGE
+    ====================================================== -->
+
+<section
+    class="marketx-section"
+    id="market-challenge"
+>
+
+    <div class="shell">
+
+
+        <!-- =================================================
+             HEADING
+        ================================================== -->
+
+        <div class="marketx-heading">
+
+            <span class="marketx-kicker">
+                The Market Challenge
+            </span>
+
+
+            <h2>
+                Stop Making Pricing Decisions with
+                <span>
+                    Partial Market Visibility
+                </span>
+            </h2>
+
+
+            <p>
+                Automotive markets move quickly. Dealer discounts,
+                cashback campaigns, warranty packages and promotional
+                incentives can change before regional teams have a
+                complete picture of the market.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MAIN LAYOUT
+        ================================================== -->
+
+        <div class="marketx-layout">
+
+
+            <!-- =============================================
+                 LEFT
+            ============================================== -->
+
+            <div class="marketx-left">
+
+
+                <article class="marketx-problem">
+
+                    <div class="marketx-icon">
+
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 3v9h9"></path>
+                            <path d="M20.5 13.5A9 9 0 1 1 10.5 3.2"></path>
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Fragmented Market Information
+                    </h3>
+
+                    <p>
+                        Competitor offers are spread across dealer websites,
+                        promotional campaigns and multiple market sources.
+                    </p>
+
+                </article>
+
+
+
+                <article class="marketx-problem">
+
+                    <div class="marketx-icon">
+
+                        <svg viewBox="0 0 24 24">
+                            <rect x="5" y="3" width="12" height="16" rx="2"></rect>
+                            <path d="M8 7h6M8 10h6M8 13h4"></path>
+                            <circle cx="17" cy="17" r="3"></circle>
+                            <path d="M19.3 19.3 22 22"></path>
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Incomplete Offer Comparison
+                    </h3>
+
+                    <p>
+                        Advertised vehicle price alone does not reveal the
+                        complete customer value behind an offer.
+                    </p>
+
+                </article>
+
+
+
+                <article class="marketx-problem">
+
+                    <div class="marketx-icon">
+
+                        <svg viewBox="0 0 24 24">
+                            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                            <path d="M8 8h8M8 12h8M8 16h8"></path>
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Slow Manual Monitoring
+                    </h3>
+
+                    <p>
+                        Manual checks and spreadsheets make competitor
+                        changes difficult to track consistently.
+                    </p>
+
+                </article>
+
+
+
+                <article class="marketx-problem marketx-problem--featured">
+
+                    <div class="marketx-icon">
+
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 20V12"></path>
+                            <path d="M10 20V8"></path>
+                            <path d="M16 20V13"></path>
+                            <path d="M21 20V5"></path>
+                            <path d="M4 9l6-4 6 4 5-6"></path>
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Reactive Commercial Decisions
+                    </h3>
+
+                    <p>
+                        Limited visibility can affect pricing,
+                        promotions and regional sales decisions.
+                    </p>
+
+                </article>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 RIGHT
+            ============================================== -->
+
+            <div class="marketx-dashboard">
+
+
+                <!-- MAP -->
+
+                <div class="marketx-map">
+
+                    <img
+                        src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/gcc-market-map.png"
+                        alt="GCC automotive market intelligence map"
+                    >
+
+                </div>
+
+
+
+                <!-- LOWER DASHBOARD -->
+
+                <div class="marketx-bottom">
+
+
+                    <!-- CARS -->
+
+                    <div class="marketx-cars">
+
+
+                        <!-- COMPETITOR A -->
+
+                        <article class="marketx-car-card">
+
+                            <span class="marketx-car-label">
+                                Competitor A
+                            </span>
+
+                            <h4>
+                                Premium SUV
+                            </h4>
+
+                            <div class="marketx-car-image">
+
+                                <img
+                                    src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/car-competitor-a.png"
+                                    alt="Competitor A premium SUV"
+                                >
+
+                            </div>
+
+                            <strong class="marketx-price">
+                                AED 98,000
+                            </strong>
+
+                            <div class="marketx-discount">
+
+                                <span>
+                                    Discount
+                                </span>
+
+                                <strong>
+                                    8.0%
+                                </strong>
+
+                            </div>
+
+                            <div class="marketx-benefit">
+                                Cashback AED 5,000
+                            </div>
+
+                        </article>
+
+
+
+                        <!-- YOUR OFFER -->
+
+                        <article class="marketx-car-card marketx-car-card--primary">
+
+                            <span class="marketx-car-label">
+                                Your Offer
+                            </span>
+
+                            <h4>
+                                Executive Sedan
+                            </h4>
+
+                            <div class="marketx-car-image">
+
+                                <img
+                                    src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/car-your-offer.png"
+                                    alt="Your offer executive sedan"
+                                >
+
+                            </div>
+
+                            <strong class="marketx-price">
+                                AED 96,500
+                            </strong>
+
+                            <div class="marketx-discount">
+
+                                <span>
+                                    Discount
+                                </span>
+
+                                <strong>
+                                    7.5%
+                                </strong>
+
+                            </div>
+
+                            <div class="marketx-benefit">
+                                Cashback AED 6,000
+                            </div>
+
+                        </article>
+
+
+
+                        <!-- COMPETITOR B -->
+
+                        <article class="marketx-car-card">
+
+                            <span class="marketx-car-label">
+                                Competitor B
+                            </span>
+
+                            <h4>
+                                Luxury SUV
+                            </h4>
+
+                            <div class="marketx-car-image">
+
+                                <img
+                                    src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/car-competitor-b.png"
+                                    alt="Competitor B luxury SUV"
+                                >
+
+                            </div>
+
+                            <strong class="marketx-price">
+                                AED 97,200
+                            </strong>
+
+                            <div class="marketx-discount">
+
+                                <span>
+                                    Discount
+                                </span>
+
+                                <strong>
+                                    6.0%
+                                </strong>
+
+                            </div>
+
+                            <div class="marketx-benefit">
+                                Cashback AED 4,000
+                            </div>
+
+                        </article>
+
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         TOTAL OFFER VALUE
+                    ====================================== -->
+
+                    <div class="marketx-value">
+
+                        <div class="marketx-value-title">
+
+                            <span>
+                                Competitive Position
+                            </span>
+
+                            <h4>
+                                Total Offer Value Comparison
+                            </h4>
+
+                        </div>
+
+
+
+                        <div class="marketx-value-row">
+
+                            <span>
+                                Competitor A
+                            </span>
+
+                            <div class="marketx-value-track">
+                                <i style="width:78%"></i>
+                            </div>
+
+                            <strong>
+                                118,500
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="marketx-value-row marketx-value-row--primary">
+
+                            <span>
+                                Your Offer
+                            </span>
+
+                            <div class="marketx-value-track">
+                                <i style="width:89%"></i>
+                            </div>
+
+                            <strong>
+                                122,500
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="marketx-value-row">
+
+                            <span>
+                                Competitor B
+                            </span>
+
+                            <div class="marketx-value-track">
+                                <i style="width:72%"></i>
+                            </div>
+
+                            <strong>
+                                115,800
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="marketx-insight">
+
+                            <span>
+                                ↑
+                            </span>
+
+                            <p>
+                                Your offer is
+                                <strong>
+                                    3.4% higher
+                                </strong>
+                                in Total Offer Value versus the current
+                                market average.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+    <!-- =====================================================
+         03. COMPETITIVE INTELLIGENCE
+    ====================================================== -->
+
+    <!-- =========================================================
+     COMPETITIVE INTELLIGENCE
+========================================================= -->
+
+<section class="ci-section">
+
+    <div class="shell">
+
+        <div class="ci-layout">
+
+
+            <!-- LEFT CONTENT -->
+
+            <div class="ci-copy">
+
+                <span class="alia-kicker">
+                    One Intelligence Platform
+                </span>
+
+                <h2>
+                    One Platform for GCC
+                    Competitive Offer Intelligence
+                </h2>
+
+                <p>
+                    ALIA brings automotive offer intelligence together so
+                    teams can compare what competitors are offering, how
+                    packages differ and where their own proposition sits
+                    in the market.
+                </p>
+
+              
+
+            </div>
+
+
+
+            <!-- RIGHT ICON CARDS -->
+
+            <div class="ci-grid">
+
+
+                <!-- VEHICLE PRICING -->
+
+                <article class="ci-card">
+
+                    <div class="ci-icon">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <path d="M5 14l1.6-5h10.8L19 14"></path>
+                            <path d="M4 14h16v5H4z"></path>
+                            <circle cx="7.5" cy="18" r="1.5"></circle>
+                            <circle cx="16.5" cy="18" r="1.5"></circle>
+                            <path d="M8 9l1.3-3h5.4L16 9"></path>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Vehicle Pricing
+                    </h3>
+
+                    <p>
+                        Advertised pricing and vehicle discounts.
+                    </p>
+
+                </article>
+
+
+
+                <!-- CASHBACK -->
+
+                <article class="ci-card">
+
+                    <div class="ci-icon ci-icon--orange">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <ellipse cx="12" cy="6" rx="6" ry="3"></ellipse>
+
+                            <path d="M6 6v4c0 1.7 2.7 3 6 3s6-1.3 6-3V6"></path>
+
+                            <path d="M6 10v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"></path>
+
+                            <path d="M6 14v3c0 1.7 2.7 3 6 3s6-1.3 6-3v-3"></path>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Cashback
+                    </h3>
+
+                    <p>
+                        Cashback and promotional support.
+                    </p>
+
+                </article>
+
+
+
+                <!-- WARRANTY -->
+
+                <article class="ci-card">
+
+                    <div class="ci-icon">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <path d="M12 3l7 3v5c0 4.7-2.7 8-7 10-4.3-2-7-5.3-7-10V6z"></path>
+
+                            <path d="m9 12 2 2 4-5"></path>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Warranty
+                    </h3>
+
+                    <p>
+                        Warranty and service packages.
+                    </p>
+
+                </article>
+
+
+
+                <!-- REGISTRATION -->
+
+                <article class="ci-card">
+
+                    <div class="ci-icon ci-icon--orange">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <rect
+                                x="5"
+                                y="3"
+                                width="14"
+                                height="18"
+                                rx="2"
+                            ></rect>
+
+                            <path d="M9 7h6"></path>
+                            <path d="M9 11h6"></path>
+                            <path d="M9 15h3"></path>
+
+                            <circle
+                                cx="16"
+                                cy="16"
+                                r="2"
+                            ></circle>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Registration Support
+                    </h3>
+
+                    <p>
+                        Registration and roadside assistance.
+                    </p>
+
+                </article>
+
+
+
+                <!-- OEM PROMOTIONS -->
+
+                <article class="ci-card">
+
+                    <div class="ci-icon">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <path d="M4 13V9l10-4v12L4 13z"></path>
+
+                            <path d="M14 8h3a3 3 0 0 1 0 6h-3"></path>
+
+                            <path d="M6 13l1 6h4l-2-5"></path>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        OEM Promotions
+                    </h3>
+
+                    <p>
+                        Dealer and manufacturer campaigns.
+                    </p>
+
+                </article>
+
+
+
+                <!-- TOTAL OFFER VALUE -->
+
+                <article class="ci-card ci-card--featured">
+
+                    <div class="ci-icon ci-icon--value">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <path d="m12 3 8 4-8 4-8-4z"></path>
+
+                            <path d="m4 11 8 4 8-4"></path>
+
+                            <path d="m4 15 8 4 8-4"></path>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        Complete Offer Value
+                    </h3>
+
+                    <p>
+                        Other components influencing customer value.
+                    </p>
+
+                </article>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+    <!-- =====================================================
+         04. TOTAL OFFER VALUE
+    ====================================================== -->
+
+
+<section class="alia-value-section" id="total-offer-value">
+
+    <div class="shell">
+
+        <div class="alia-value-layout">
+
+
+            <!-- =====================================================
+                 LEFT SIDE
+            ====================================================== -->
+
+            <div class="alia-value-copy">
+
+                <span class="alia-kicker">
+                    The ALIA Difference
+                </span>
+
+                <h2>
+                    Compare Total Offer Value —
+                    Not Just Sticker Price
+                </h2>
+
+                <p>
+                    The lowest advertised vehicle price does not always
+                    represent the strongest offer. ALIA evaluates the
+                    broader customer proposition so teams can compare
+                    the complete value attached to a vehicle offer.
+                </p>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 RIGHT SIDE
+            ====================================================== -->
+
+            <div class="tov-panel">
+
+
+                <!-- TOP LABEL -->
+
+                <div class="tov-panel-heading">
+
+                    <div>
+
+                        <span>
+                            Complete Customer Proposition
+                        </span>
+
+                        <strong>
+                            Compare value beyond advertised price.
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     FORMULA GRID
+                ================================================== -->
+
+                <div class="tov-grid">
+
+
+                    <!-- VEHICLE PRICE -->
+
+                    <div class="tov-card tov-card--plus">
+
+                        <div class="tov-card-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <path d="M4 14l2-5h12l2 5"></path>
+
+                                <path d="M4 14h16v5H4z"></path>
+
+                                <circle cx="7" cy="18" r="1.5"></circle>
+
+                                <circle cx="17" cy="18" r="1.5"></circle>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Vehicle
+                        </strong>
+
+                        <span>
+                            Price
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- DISCOUNT -->
+
+                    <div class="tov-card tov-card--plus">
+
+                        <div class="tov-card-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <path d="M20 13 11 22 2 13V4h9z"></path>
+
+                                <circle cx="7" cy="9" r="1.5"></circle>
+
+                                <path d="m12 8 5 5"></path>
+
+                                <path d="m17 8-5 5"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Discount
+                        </strong>
+
+                        <span>
+                            Value
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- CASHBACK -->
+
+                    <div class="tov-card tov-card--plus">
+
+                        <div class="tov-card-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <ellipse
+                                    cx="12"
+                                    cy="6"
+                                    rx="6"
+                                    ry="3"
+                                ></ellipse>
+
+                                <path d="M6 6v4c0 1.7 2.7 3 6 3s6-1.3 6-3V6"></path>
+
+                                <path d="M6 10v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"></path>
+
+                                <path d="M6 14v3c0 1.7 2.7 3 6 3s6-1.3 6-3v-3"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Cashback
+                        </strong>
+
+                        <span>
+                            Support
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- WARRANTY -->
+
+                    <div class="tov-card tov-card--plus">
+
+                        <div class="tov-card-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <path d="M12 3l7 3v5c0 4.7-2.7 8-7 10-4.3-2-7-5.3-7-10V6z"></path>
+
+                                <path d="m9 12 2 2 4-5"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Warranty
+                        </strong>
+
+                        <span>
+                            Coverage
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- SERVICE -->
+
+                    <div class="tov-card tov-card--plus">
+
+                        <div class="tov-card-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <path d="m14 7 3-3 3 3-3 3"></path>
+
+                                <path d="M17 4c-1.7-.7-3.8-.4-5.2 1-1.7 1.7-1.9 4.4-.6 6.3L5 17.5 6.5 19l6.2-6.2c1.9 1.3 4.6 1.1 6.3-.6"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Service
+                        </strong>
+
+                        <span>
+                            Package
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- REGISTRATION -->
+
+                    <div class="tov-card tov-card--equal">
+
+                        <div class="tov-card-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <rect
+                                    x="5"
+                                    y="3"
+                                    width="14"
+                                    height="18"
+                                    rx="2"
+                                ></rect>
+
+                                <path d="M9 7h6"></path>
+
+                                <path d="M9 11h6"></path>
+
+                                <path d="M9 15h4"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Registration
+                        </strong>
+
+                        <span>
+                            Support
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         RESULT
+                    ================================================== -->
+
+                    <div class="tov-result-card">
+
+                        <div class="tov-result-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <path d="m12 3 8 4-8 4-8-4z"></path>
+
+                                <path d="m4 11 8 4 8-4"></path>
+
+                                <path d="m4 15 8 4 8-4"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <strong>
+                            Total Offer
+                        </strong>
+
+                        <span>
+                            Value
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================================
+             BOTTOM BENEFITS
+        ====================================================== -->
+
+        <div class="alia-value-benefits">
+
+            <div>
+                Identify aggressive competitor offers
+            </div>
+
+            <div>
+                Understand discounting versus added value
+            </div>
+
+            <div>
+                Compare complete offers consistently
+            </div>
+
+            <div>
+                Support pricing decisions beyond sticker price
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+    <!-- =====================================================
+         07. ABOUT / POSITIONING
+    ====================================================== -->
+
+    <section
+        class="alia-about-section"
+        id="about"
+    >
+
+        <div class="shell alia-about-layout">
+
+
+            <div>
+
+                <span class="alia-kicker">
+                    About ALIA
+                </span>
+
+                <h2>
+                    Competitive Intelligence Built
+                    for the GCC Automotive Market
+                </h2>
+
+            </div>
+
+
+            <p>
+                ALIA — Auto Offers Live Intelligent Agent — is designed
+                to help automotive OEM and dealer teams understand how
+                competitor offers are positioned across key GCC markets,
+                with structured visibility into pricing, incentives and
+                complete customer value.
+            </p>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         08. INSIGHTS / BLOGS
+    ====================================================== -->
+
+
+<!-- =========================================================
+     INSIGHTS / BLOG SECTION
+========================================================= -->
+
+<section class="insights-section" id="insights">
+
+    <div class="shell">
+
+        <!-- TOP HEADING -->
+
+        <div class="insights-top">
+
+            <div class="insights-heading">
+
+                <span class="alia-kicker">
+                    Insights
+                </span>
+
+                <h2>
+                    GCC Automotive Market Insights
+                </h2>
+
+                <p>
+                    Practical analysis of automotive pricing,
+                    competitor offers and incentive intelligence.
+                </p>
+
+            </div>
+
+
+            <a href="/blogs" class="insights-view-all">
+                View All Insights →
+            </a>
+
+        </div>
+
+
+
+        <!-- BLOG GRID -->
+
+        <div class="insights-grid">
+
+
+            <!-- BLOG 1 -->
+
+            <article class="insight-card">
+
+                <a href="/blog/automotive-market-intelligence-for-smarter-gcc-decisions" class="insight-image-link">
+
+                    <div class="insight-image">
+
+                        <img
+                            src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/blog-market-intelligence.png"
+                            alt="Automotive market intelligence dashboard for GCC markets"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </a>
+
+
+                <div class="insight-content">
+
+                    <span class="insight-category">
+                        Market Intelligence
+                    </span>
+
+                    <h3>
+                        Automotive Market Intelligence for Smarter GCC Decisions
+                    </h3>
+
+                    <p>
+                        Track pricing, competitor offers and market shifts across GCC markets.
+                    </p>
+
+                    <a href="/blog/automotive-market-intelligence-for-smarter-gcc-decisions" class="insight-read">
+                        Read Article →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- BLOG 2 -->
+
+            <article class="insight-card">
+
+                <a href="/blog/automotive-incentive-benchmarking-across-gcc-markets" class="insight-image-link">
+
+                    <div class="insight-image">
+
+                        <img
+                            src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/blog-incentive-benchmarking.png"
+                            alt="Automotive incentive benchmarking dashboard"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </a>
+
+
+                <div class="insight-content">
+
+                    <span class="insight-category">
+                        Pricing &amp; Incentives
+                    </span>
+
+                    <h3>
+                        Automotive Incentive Benchmarking Across GCC Markets
+                    </h3>
+
+                    <p>
+                        Compare automotive incentives and competing offers across GCC markets.
+                    </p>
+
+                    <a href="/blog/automotive-incentive-benchmarking-across-gcc-markets" class="insight-read">
+                        Read Article →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- BLOG 3 -->
+
+            <article class="insight-card">
+
+                <a href="/blog/total-offer-value-a-better-way-to-buy-a-car" class="insight-image-link">
+
+                    <div class="insight-image">
+
+                        <img
+                            src="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>assets/images/blog-total-offer-value.png"
+                            alt="Total Offer Value automotive comparison dashboard"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </a>
+
+
+                <div class="insight-content">
+
+                    <span class="insight-category">
+                        Total Offer Value
+                    </span>
+
+                    <h3>
+                        Total Offer Value: A Better Way to Buy A Car
+                    </h3>
+
+                    <p>
+                        Compare vehicle price, incentives and benefits to understand total offer value.
+                    </p>
+
+                    <a href="/blog/total-offer-value-a-better-way-to-buy-a-car" class="insight-read">
+                        Read Article →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
 
