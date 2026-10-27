@@ -94,6 +94,21 @@ def main() -> int:
             return 1
 
 
+        if not phone.isdigit():
+            response(
+                False,
+                "Phone number must contain numbers only.",
+            )
+            return 1
+
+
+        if len(phone) < 7 or len(phone) > 15:
+            response(
+                False,
+                "Please enter a valid phone number.",
+            )
+            return 1
+
         if not email:
             response(
                 False,

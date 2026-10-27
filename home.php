@@ -1204,7 +1204,7 @@
             </div>
 
 
-            <a href="/blogs" class="insights-view-all">
+            <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blogs" class="insights-view-all">
                 View All Insights →
             </a>
 
@@ -1221,7 +1221,7 @@
 
             <article class="insight-card">
 
-                <a href="/blog/automotive-market-intelligence-for-smarter-gcc-decisions" class="insight-image-link">
+                <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blog/automotive-market-intelligence-for-smarter-gcc-decisions" class="insight-image-link">
 
                     <div class="insight-image">
 
@@ -1250,7 +1250,7 @@
                         Track pricing, competitor offers and market shifts across GCC markets.
                     </p>
 
-                    <a href="/blog/automotive-market-intelligence-for-smarter-gcc-decisions" class="insight-read">
+                    <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blog/automotive-market-intelligence-for-smarter-gcc-decisions" class="insight-read">
                         Read Article →
                     </a>
 
@@ -1264,7 +1264,7 @@
 
             <article class="insight-card">
 
-                <a href="/blog/automotive-incentive-benchmarking-across-gcc-markets" class="insight-image-link">
+                <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blog/automotive-incentive-benchmarking-across-gcc-markets" class="insight-image-link">
 
                     <div class="insight-image">
 
@@ -1293,7 +1293,7 @@
                         Compare automotive incentives and competing offers across GCC markets.
                     </p>
 
-                    <a href="/blog/automotive-incentive-benchmarking-across-gcc-markets" class="insight-read">
+                    <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blog/automotive-incentive-benchmarking-across-gcc-markets" class="insight-read">
                         Read Article →
                     </a>
 
@@ -1307,7 +1307,7 @@
 
             <article class="insight-card">
 
-                <a href="/blog/total-offer-value-a-better-way-to-buy-a-car" class="insight-image-link">
+                <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blog/total-offer-value-a-better-way-to-buy-a-car" class="insight-image-link">
 
                     <div class="insight-image">
 
@@ -1336,7 +1336,7 @@
                         Compare vehicle price, incentives and benefits to understand total offer value.
                     </p>
 
-                    <a href="/blog/total-offer-value-a-better-way-to-buy-a-car" class="insight-read">
+                    <a href="<?= htmlspecialchars($site['website'], ENT_QUOTES, 'UTF-8') ?>blog/total-offer-value-a-better-way-to-buy-a-car" class="insight-read">
                         Read Article →
                     </a>
 
